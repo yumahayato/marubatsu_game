@@ -101,22 +101,25 @@
   
   let flg = false;
   turn.textContent = `${flg ? "まる" : "ばつ"}の番です`;
+  let click_count = 0;
   
   canvas.addEventListener('click', e => {
     const rect = canvas.getBoundingClientRect();
     const col = Math.floor((e.clientY - rect.top) / 80);
     const row = Math.floor((e.clientX - rect.left) / 80);
-    if(grid[row][col] === 0) {
-      if(flg === false){
-        cross(row * 80, col * 80); // ばつ
-        grid[row][col] = 1;
-      } else {
-        circle(row * 80, col * 80);// まる
-        grid[row][col] = 2;
-      }
-      flg = !flg;
-      win(winner());
+    if (won === false) {
+      if(grid[row][col] === 0) {
+        if(flg === false){
+          cross(row * 80, col * 80); // ばつ
+          grid[row][col] = 1;
+        } else {
+          circle(row * 80, col * 80);// まる
+          grid[row][col] = 2;
+        }
+        flg = !flg;
     }
+    win(winner());
+  }
   });
   document.getElementById('reset').addEventListener('click', () => {
     ctx.clearRect(0, 0, canvas.height, canvas.width);
@@ -128,7 +131,8 @@
     [0, 0, 0],
     ];
     field();
-    turn.textContent = `${flg ? "まる" : "ばつ"}の番です`;
+    // turn.textContent = `${flg ? "まる" : "ばつ"}の番です`;
+    win(winner());
   });
 
 }
